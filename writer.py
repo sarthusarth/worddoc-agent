@@ -1,6 +1,7 @@
 import os
 import json
 import anthropic
+from json_repair import repair_json
 from docx import Document
 from utils import load_yaml, token_usage
 from dotenv import load_dotenv
@@ -39,12 +40,12 @@ def load_research_notes(project_folder: str) -> str:
     return "\n\n---\n\n".join(notes)
 
 
-@observe(name="writer")
+@observe(name="writer", as_type="generation")
 def generate_structure(topic: str, research_notes: str) -> dict:
     """Ask the LLM to turn research notes into a document structure."""
     response = client.messages.create(
         model="claude-haiku-4-5-20251001",
-        max_tokens=4096,
+        max_tokens=8000,
         system=WRITER_SYSTEM,
         messages=[
             {
@@ -61,11 +62,15 @@ def generate_structure(topic: str, research_notes: str) -> dict:
         input=topic,
     )
     text = response.content[0].text.strip()
-    # Strip markdown fences if the model wrapped the JSON anyway
     if text.startswith("```"):
-        text = text.split("\n", 1)[1]  # remove opening ```json line
-        text = text.rsplit("```", 1)[0]  # remove closing ```
-    return json.loads(text.strip())
+        text = text.split("\n", 1)[1]
+        text = text.rsplit("```", 1)[0]
+    text = text.strip()
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        # Response was likely truncated at max_tokens — repair and continue
+        return json.loads(repair_json(text))
 
 
 def render_docx(structure: dict, output_path: str) -> None:

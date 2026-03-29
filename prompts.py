@@ -62,12 +62,13 @@ The JSON structure:
 }
 
 ## Rules
-- Write 4–6 sections with meaningful headings (not "Task 1", "Task 2")
-- Each section should have 2–3 content blocks
-- Use "bullets" for lists, enumerations, or key points from the research — never embed them as dashes inside a paragraph
+- Write 4–5 sections with meaningful headings (not "Task 1", "Task 2")
+- Each section should have 1–2 content blocks — be concise, do not pad
+- Keep each paragraph under 60 words
+- Use "bullets" for lists and key points — never embed dashes inside a paragraph
 - Use "paragraph" for flowing prose and explanations
 - Every content block MUST include a "source" field with the URL from the research notes that the content came from
 - The research notes contain "> Source: <URL>" lines after each paragraph — use those URLs
 - If a block synthesises across multiple sources, use the most relevant URL
-- Synthesise across the notes — do not just copy them verbatim
+- Synthesise across the notes — do not copy verbatim
 - The conclusion does not need a source"""

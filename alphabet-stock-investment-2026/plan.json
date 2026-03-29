@@ -1,0 +1,36 @@
+{
+  "topic": "Is Alphabet a good investment stock in 2026?",
+  "folder": "alphabet-stock-investment-2026",
+  "tasks": [
+    {
+      "id": 1,
+      "type": "define",
+      "description": "Define Alphabet's business segments, revenue streams, and market position as of 2024\u20132025."
+    },
+    {
+      "id": 2,
+      "type": "search",
+      "description": "Find Alphabet's recent financial performance, earnings, growth rates, and analyst price targets for 2026."
+    },
+    {
+      "id": 3,
+      "type": "search",
+      "description": "Search for Alphabet's AI strategy, competitive threats from OpenAI and Microsoft, and regulatory risks."
+    },
+    {
+      "id": 4,
+      "type": "compare",
+      "description": "Compare Alphabet's valuation metrics, growth prospects, and dividend yield to FAANG peers and market indices."
+    },
+    {
+      "id": 5,
+      "type": "critique",
+      "description": "Identify known risks: antitrust actions, ad market saturation, AI commoditization, and geopolitical factors."
+    },
+    {
+      "id": 6,
+      "type": "synthesise",
+      "description": "Synthesise evidence to assess whether Alphabet is a sound 2026 investment given risk\u2013reward profile."
+    }
+  ]
+}

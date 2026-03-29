@@ -1,2 +1,2 @@
-project_folder: alphabet-investment-stock
-topic: Is Alphabet a good investment stock?
+project_folder: bloom-energy-investment
+topic: Is Bloom Energy a good investment?

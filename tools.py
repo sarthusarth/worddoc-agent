@@ -65,7 +65,7 @@ def read_file(filename: str) -> str:
         return f.read()
 
 
-@observe(name="exa_web_search")
+@observe(name="exa_web_search", as_type="generation")
 def web_search(query: str) -> str:
     """Search the web for recent information on a query."""
     results = exa.search(query=query, num_results=1, type="auto")

@@ -12,7 +12,7 @@ client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 config = load_yaml("config.yml")
 
 
-@observe(name="planner")
+@observe(name="planner", as_type="generation")
 def plan(
     topic: str, output_file: str = "plan.json", notes_file="notes.txt"
 ) -> list[dict]:

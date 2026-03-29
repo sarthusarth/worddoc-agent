@@ -1,0 +1,41 @@
+{
+  "topic": "Is Alphabet a good investment stock?",
+  "folder": "alphabet-stock-investment",
+  "tasks": [
+    {
+      "id": 1,
+      "type": "define",
+      "description": "Define investment criteria: fundamentals, valuation metrics, and risk factors for tech stocks."
+    },
+    {
+      "id": 2,
+      "type": "search",
+      "description": "Find Alphabet's latest financial metrics: revenue, profit margins, earnings per share, and debt levels."
+    },
+    {
+      "id": 3,
+      "type": "search",
+      "description": "Retrieve Alphabet's current stock valuation: P/E ratio, dividend yield, and analyst price targets."
+    },
+    {
+      "id": 4,
+      "type": "search",
+      "description": "Identify Alphabet's growth drivers: AI initiatives, cloud revenue, advertising market trends, and expansion plans."
+    },
+    {
+      "id": 5,
+      "type": "compare",
+      "description": "Compare Alphabet's valuation and growth metrics against competitors: Microsoft, Amazon, and Meta."
+    },
+    {
+      "id": 6,
+      "type": "critique",
+      "description": "Surface risks: regulatory challenges, antitrust investigations, AI competition, and market saturation concerns."
+    },
+    {
+      "id": 7,
+      "type": "synthesise",
+      "description": "Synthesise findings to assess whether Alphabet represents a strong long-term investment opportunity."
+    }
+  ]
+}
