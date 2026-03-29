@@ -157,6 +157,27 @@ uv run python researcher.py   # creates <folder>/task-N.md files
 uv run python writer.py       # creates <folder>/report.docx + report.json
 ```
 
+## How the agent loop works
+
+The researcher is the only true agent in the pipeline — the planner and writer are single LLM calls. For each research task, the researcher runs a `while True` loop:
+
+1. The model receives the task description and any injected prior context, along with the available tools.
+2. If the model returns `stop_reason="tool_use"`, Python executes every tool call in the response, collects the results, and appends them as a `tool_result` message before calling the model again.
+3. This continues until the model returns `stop_reason="end_turn"`, meaning it has gathered enough information and written the output file.
+4. If `stop_reason="max_tokens"` is returned, the loop breaks immediately to prevent a malformed message history (an unmatched `tool_use` block with no `tool_result`).
+
+The loop is intentionally narrow: the researcher is only allowed to search and write. It cannot read files, run commands, or call other agents. This keeps the loop predictable and easy to trace.
+
+## What tools are integrated
+
+Three tools are available in `tools.py`. The researcher only receives two of them — `web_search` and `write_file`. `read_file` exists for future use by other agents.
+
+**`web_search`** — powered by the Exa API. Takes a query string, returns the top result's URL, title, and full text. Each call is traced in Langfuse as a generation with the actual Exa cost attached. The researcher uses 1–2 searches per task.
+
+**`write_file`** — writes arbitrary text to a given file path. The researcher uses this once per task to save its findings as a Markdown file (`task-N.md`) inside the project folder. Keeping file I/O as a tool (rather than hardcoded Python) means the LLM decides the content and the path — the human-readable output is the model's own words, not a template.
+
+**`read_file`** — reads a file and returns its contents. Not given to the researcher (it has no need to read files during research) but available for a future editor agent that loads `report.json` and makes targeted changes.
+
 ## How context flows between tasks
 
 The researcher injects prior notes into each task based on type:
@@ -168,6 +189,18 @@ The researcher injects prior notes into each task based on type:
 | `synthesise` | all prior `task-N.md` files |
 
 This ensures the synthesis task reasons over actual research findings rather than re-searching from scratch.
+
+## Context strategy
+
+Context is managed deliberately at each stage to balance quality against token cost.
+
+**Planner** receives only the topic. It has no access to search results or prior runs — its job is pure structured reasoning about what needs to be researched, not the research itself.
+
+**Researcher** receives selective prior context depending on the task type. Non-synthesis tasks only receive the `define` task output (task-1) as baseline grounding. This keeps the prompt small and focused — a search task about financials doesn't need to know what the compare task found. The synthesise task is the exception: it receives all prior `task-N.md` files because its whole purpose is to draw connections across the full research body. It also gets a higher `max_tokens` limit (4096 vs 2048) to accommodate the larger input.
+
+**Writer** receives all task notes concatenated in order. By this point the research is complete and the writer needs the full picture to produce a coherent document. To prevent the output from being truncated, the prompt caps paragraphs at 60 words and sections at 1–2 blocks. If the JSON is still truncated at `max_tokens`, `json-repair` recovers a partial but valid structure rather than crashing.
+
+**Tool results** are passed back inline as `tool_result` messages in the conversation history. The model sees the full search result text on the next turn, not a summary — this preserves detail that would otherwise be lost in a paraphrase.
 
 ## Source citations
 
