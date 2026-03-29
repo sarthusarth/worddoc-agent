@@ -53,8 +53,8 @@ The JSON structure:
     {
       "heading": "Section heading",
       "content": [
-        {"type": "paragraph", "text": "prose text here"},
-        {"type": "bullets", "items": ["bullet one", "bullet two", "bullet three"]}
+        {"type": "paragraph", "text": "prose text here", "source": "https://example.com"},
+        {"type": "bullets", "items": ["bullet one", "bullet two"], "source": "https://example.com"}
       ]
     }
   ],
@@ -66,6 +66,8 @@ The JSON structure:
 - Each section should have 2–3 content blocks
 - Use "bullets" for lists, enumerations, or key points from the research — never embed them as dashes inside a paragraph
 - Use "paragraph" for flowing prose and explanations
+- Every content block MUST include a "source" field with the URL from the research notes that the content came from
+- The research notes contain "> Source: <URL>" lines after each paragraph — use those URLs
+- If a block synthesises across multiple sources, use the most relevant URL
 - Synthesise across the notes — do not just copy them verbatim
-- The conclusion must directly answer the original research topic/question
-- Omit sources and URLs from the body; they are handled separately"""
+- The conclusion does not need a source"""

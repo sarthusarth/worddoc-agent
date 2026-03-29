@@ -55,7 +55,9 @@ def generate_structure(topic: str, research_notes: str) -> dict:
     )
     langfuse_context.update_current_observation(
         model=config["model"],
-        usage=token_usage(config["model"], response.usage.input_tokens, response.usage.output_tokens),
+        usage=token_usage(
+            config["model"], response.usage.input_tokens, response.usage.output_tokens
+        ),
         input=topic,
     )
     text = response.content[0].text.strip()
@@ -90,16 +92,31 @@ def render_docx(structure: dict, output_path: str) -> None:
         for block in section["content"]:
             if block["type"] == "paragraph":
                 p = doc.add_paragraph(block["text"])
-                p.paragraph_format.space_after = Pt(6)
+                p.paragraph_format.space_after = Pt(2)
             elif block["type"] == "bullets":
                 for item in block["items"]:
                     doc.add_paragraph(item, style="List Bullet")
+            # Source line after every block
+            source = block.get("source")
+            if source:
+                is_url = source.startswith("http://") or source.startswith("https://")
+                src = doc.add_paragraph(f"Source: {source}")
+                src.paragraph_format.space_after = Pt(8)
+                run = src.runs[0]
+                run.font.size = Pt(8)
+                run.font.italic = True
+                run.font.color.rgb = (
+                    RGBColor(0x80, 0x80, 0x80) if is_url else RGBColor(0x00, 0x00, 0x00)
+                )
 
     # Conclusion
     doc.add_heading("Conclusion", level=1)
     doc.add_paragraph(structure["conclusion"])
 
     doc.save(output_path)
+    json_path = output_path.replace(".docx", ".json")
+    with open(json_path, "w") as f:
+        json.dump(structure, f, indent=2)
     print(f"Document saved: {output_path}")
 
 

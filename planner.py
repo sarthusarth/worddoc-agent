@@ -11,6 +11,7 @@ load_dotenv()
 client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 config = load_yaml("config.yml")
 
+
 @observe(name="planner")
 def plan(
     topic: str, output_file: str = "plan.json", notes_file="notes.txt"
@@ -24,7 +25,9 @@ def plan(
     )
     langfuse_context.update_current_observation(
         model=config["model"],
-        usage=token_usage(config["model"], response.usage.input_tokens, response.usage.output_tokens),
+        usage=token_usage(
+            config["model"], response.usage.input_tokens, response.usage.output_tokens
+        ),
         input=topic,
         output=response.content[0].text.strip(),
     )

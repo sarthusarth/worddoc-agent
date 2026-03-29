@@ -1,2 +1,2 @@
-project_folder: gold-investment-current
-topic: Is gold a good investment right now
+project_folder: alphabet-investment-stock
+topic: Is Alphabet a good investment stock?

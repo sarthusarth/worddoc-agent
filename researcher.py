@@ -24,7 +24,10 @@ Your job:
 ## Notes on file writing
 - Always write to the exact path: {project_folder}/task-{task_id}.md
 - Start the file with a heading: # Task {task_id}: <short title>
-- Include your sources (URLs or publication names) at the bottom under ## Sources
+- After EACH paragraph, add a source line in this exact format:
+  > Source: <URL>
+- Do NOT put a combined sources section at the end — every paragraph must have its own source line immediately after it
+- If one search result is used across multiple paragraphs, repeat the source line after each paragraph
 
 ## Notes on searching
 - Run 1–2 searches per task — enough to be thorough, not exhaustive
@@ -94,10 +97,13 @@ def research_task(task: dict, project_folder: str, log=print) -> None:
 
     messages = [{"role": "user", "content": user_message}]
 
+    # Synthesis tasks inject all prior notes — give them more room
+    max_tokens = 4096 if task.get("type") == "synthesise" else 2048
+
     while True:
         response = client.messages.create(
             model=config["model"],
-            max_tokens=2048,
+            max_tokens=max_tokens,
             system=system,
             tools=RESEARCHER_TOOLS,
             messages=messages,
@@ -106,10 +112,18 @@ def research_task(task: dict, project_folder: str, log=print) -> None:
         messages.append({"role": "assistant", "content": response.content})
         langfuse_context.update_current_observation(
             model=config["model"],
-            usage=token_usage(config["model"], response.usage.input_tokens, response.usage.output_tokens),
+            usage=token_usage(
+                config["model"],
+                response.usage.input_tokens,
+                response.usage.output_tokens,
+            ),
         )
 
         if response.stop_reason == "end_turn":
+            break
+
+        if response.stop_reason == "max_tokens":
+            # Response was cut off — appending tool_results would corrupt message history
             break
 
         if response.stop_reason == "tool_use":
