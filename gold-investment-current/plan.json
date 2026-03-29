@@ -1,0 +1,31 @@
+{
+  "topic": "Is gold a good investment right now",
+  "folder": "gold-investment-current",
+  "tasks": [
+    {
+      "id": 1,
+      "type": "define",
+      "description": "Define gold investment types, storage options, and key metrics like spot price and volatility."
+    },
+    {
+      "id": 2,
+      "type": "search",
+      "description": "Find current gold spot price, recent price trends over 1, 5, and 10 years, and geopolitical drivers."
+    },
+    {
+      "id": 3,
+      "type": "compare",
+      "description": "Compare gold returns against equities, bonds, and inflation over the past 5 years."
+    },
+    {
+      "id": 4,
+      "type": "critique",
+      "description": "Identify drawbacks: no yield, storage costs, inflation hedging efficacy, and market timing risks."
+    },
+    {
+      "id": 5,
+      "type": "synthesise",
+      "description": "Assess whether gold suits current portfolio allocation based on interest rates and risk appetite."
+    }
+  ]
+}

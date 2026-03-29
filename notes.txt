@@ -1,0 +1,2 @@
+project_folder: gold-investment-current
+topic: Is gold a good investment right now
