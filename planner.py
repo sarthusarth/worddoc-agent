@@ -36,6 +36,8 @@ def plan(
         text = text.split("\n", 1)[1]
         text = text.rsplit("```", 1)[0]
     plan_data = json.loads(text.strip())
+    if plan_data.get("error"):
+        raise ValueError(plan_data.get("message", "This topic cannot be researched."))
     os.makedirs(plan_data["folder"], exist_ok=True)
     output_file = os.path.join(plan_data["folder"], output_file)
     with open(output_file, "w") as f:

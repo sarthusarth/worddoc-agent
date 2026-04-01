@@ -60,8 +60,11 @@ plan_btn = st.button(
 
 if plan_btn and topic.strip():
     with st.spinner("Planning research tasks..."):
-        st.session_state.plan_data = plan(topic.strip())
-    st.rerun()
+        try:
+            st.session_state.plan_data = plan(topic.strip())
+            st.rerun()
+        except ValueError as e:
+            st.error(f"Cannot research this topic: {e}")
 
 # ── Step 2: Show plan + confirm ────────────────────────────────────────────────
 if st.session_state.plan_data and st.session_state.output_path is None:

@@ -1,0 +1,31 @@
+{
+  "topic": "why is nvidia investing in openai",
+  "folder": "nvidia-openai-investment",
+  "tasks": [
+    {
+      "id": 1,
+      "type": "define",
+      "description": "Define the nature, timeline, and terms of Nvidia's investment in OpenAI."
+    },
+    {
+      "id": 2,
+      "type": "search",
+      "description": "Find official statements from Nvidia and OpenAI leadership explaining investment rationale."
+    },
+    {
+      "id": 3,
+      "type": "compare",
+      "description": "Compare Nvidia's investment strategy with competitors' AI partnerships and investments."
+    },
+    {
+      "id": 4,
+      "type": "critique",
+      "description": "Identify tensions, risks, and strategic concerns in the Nvidia-OpenAI relationship."
+    },
+    {
+      "id": 5,
+      "type": "synthesise",
+      "description": "Summarise strategic benefits for Nvidia and how this positions both companies in AI infrastructure."
+    }
+  ]
+}
