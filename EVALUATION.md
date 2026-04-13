@@ -4,7 +4,7 @@ How to evaluate the doc-agent pipeline — stucturally and qualitatively.
 
 ---
 
-## 1. Unit: each component in isolation
+## 1. Format Errors (each component in isolation)
 
 ### Planner
 - Primary Metric: Check the JSON output is valid and has all required fields (`topic`, `folder`, `tasks`)
